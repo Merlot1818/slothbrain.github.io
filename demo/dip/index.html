@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <meta charset="utf-8">
+	<meta name="author" content="Jeff.fu">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+      <!-- demo styles -->
+      <link rel="stylesheet" href="assets/css/styles.css">
+      <!-- vendor styles -->
+      <link rel="stylesheet" href="assets/css/vendor/nvd3/nv.d3.css">
+  </head>
+  <body>
+  	<h1>DIP.JS Demo</h1>
+  	<ul class="filter">
+  		<li>
+  			<ul>
+  				<li class="label-filters"><span>像素处理:</span></li>
+  				<li class="btn btn-filter" draggable="true" data-filter="grayscale">灰度化</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="sepia">深褐色</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="thresholding">阈值-128</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="invert">反色</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="saturation">饱和度</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="red">红色</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="green">绿色</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="blue">蓝色</li>
+  			</ul>
+  		</li>
+  		<li>
+  			<ul>
+  				<li class="label-filters"><span>边缘检测</span></li>
+  				<li class="btn btn-filter" draggable="true" data-filter="roberts">roberts</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="sharpen">sharpen</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="sobelVertical">sobel y</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="sobelHorizontal">sobel x</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="highpass">highpass</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="lowpass3">lowpass(3x3)</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="lowpass5">lowpass(5x5)</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="laplacian">laplacian</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="gaussian">gaussian</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="bigGaussian">bigGaussian</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="prewittVertical">prewitt y</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="prewittHorizontal">prewitt x</li>
+  				<li class="btn btn-filter" draggable="true" data-filter="canny">canny</li>
+  			</ul>
+  		</li>
+  	</ul>
+
+  	<section class="demo-container">
+  		<img id="lena" src="assets/img/lena.jpg" class="image-default" width="400" height="400">
+  		<div class="content">
+  			<div id="destination" class="drop boxes"> </div>
+  			<canvas id="canvas" width="400" height="400" class="image-canvas"></canvas>
+  			<span class="btn btn-drop" draggable="true">添加 filters</span>
+  			<span id="filter-reset" class="btn btn-reset" draggable="true" data-filter="reset">清除filters</span>
+  		</div>
+  		<section class="info" id="chart1">
+  			<svg class="chart" style="width: 300px;"></svg>
+  		</section>
+  	</section>
+  	<script src="assets/js/vendor/all.js"></script>
+  	<script src="libs/dip.min.js"></script>
+  	<script src="assets/js/runner/config-chart.js"></script>
+  	<script src="assets/js/runner/runner.js"></script>
+  </body>
+  </html>
