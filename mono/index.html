@@ -1,613 +1,818 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<!-- Head tag -->
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="keyword"  content="">
-    <link rel="shortcut icon" href="/img/ironman-draw.png">
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <title>
-        
-          Mono - TWaver | Jeff.fu
-        
-    </title>
-
-    <link rel="canonical" href="https://slothbrain.github.io/mono/">
-
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-    <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    <title>mono examples</title>
+    <link href="./css/prettify.css" rel="stylesheet"/>
+    <script src="./lib/prettify.js"></script>
+    <style>
     
-    <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
-
-    <link rel="stylesheet" href="/css/widget.css">
-
-    <link rel="stylesheet" href="/css/rocket.css">
-
-    <link rel="stylesheet" href="/css/signature.css">
-
-    <link rel="stylesheet" href="/css/toc.css">
-
-    <!-- Custom Fonts -->
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
-    <!-- Hux change font-awesome CDN to qiniu -->
-    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-
-    <!-- Hux Delete, sad but pending in China
-    <link href='http://fonts.useso.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
-    css'>
-    -->
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- ga & ba script hoook -->
-    <script></script>
-</head>
-
-
-<!-- hack iOS CSS :active style -->
-<body ontouchstart="">
-	<!-- Modified by Yu-Hsuan Yen -->
-<!-- Post Header -->
-<style type="text/css">
-    header.intro-header{
-        
-            background-image: url('/img/header_img/christmas-1900489_1920.jpg')
-            /*page*/
-        
+    @font-face {
+        font-family: Arial, helvetica, freesans, sans-serif;
+        font-weight: normal;
+        font-style: normal;
     }
-    
-    #signature{
-        background-image: url('/img/signature/FujieSign.png');
+
+    body {
+        background-color: #e8e8e8;
+        margin: 0px;
+        font-size: 14px;
+        font-family: Arial, helvetica, freesans, sans-serif;
+        overflow: hidden;
     }
-    
+
+    a {
+        /*color: #2194CE;*/
+        color: #3a7445;
+        text-decoration: none;
+    }
+
+    h1 {
+        margin-top: 30px;
+        margin-bottom: 40px;
+        font-size: 25px;
+        font-weight: normal;
+    }
+
+    h2 {
+        font-size: 20px;
+        font-weight: normal;
+        padding-top: 10px;
+    }
+
+    #panel {
+        position: absolute;
+        width: 310px;
+        height: 100%;
+        overflow: scroll;
+        background: #fafafa;
+    }
+
+    #panel #list {
+        padding: 0px 20px;
+        line-height: 18px;
+    }
+
+    #panel #list .link {
+        /*color: #2194CE;*/
+        color: #3d7749;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    #panel #list .selected {
+        color: #ff0000;
+    }
+
+    #panel #list .link:hover {
+        text-decoration: underline;
+    }
+
+    #panel #list .info {
+        color: #71705a;
+        text-decoration: none;
+        font-style: italic;
+        font-size: 14px;
+        background-color: aliceblue;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        margin-top: 15px;
+        margin-bottom: 4px;
+    }
+
+    #panel #list .infoFirst {
+        color: #71705a;
+        text-decoration: none;
+        font-style: italic;
+        font-size: 14px;
+        background-color: aliceblue;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        margin-top: 0;
+        margin-bottom: 4px;
+    }
+
+    #viewer {
+        position: absolute;
+        left: 310px;
+        width: -webkit-calc(100% - 310px); /* Safari */
+        width: calc(100% - 310px);
+        height: 100%;
+        border: 0px;
+        background-color: #ffffff;
+    }
+
+    #sourceButton {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 8px;
+        color: #fff;
+        background-color: #02550b;
+        opacity: 0.7;
+    }
+
+    #sourceButton:hover {
+        cursor: pointer;
+        opacity: 1;
+    }
+
+    .contents {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    #source {
+        position: fixed;
+        top: 10px;
+        left: 320px;
+        padding: 10px;
+        margin: 0;
+        height: -webkit-calc(100% - 120px); /* Safari */
+        height: calc(100% - 120px);
+        width: -webkit-calc(100% - 350px); /* Safari */
+        width: calc(100% - 350px);
+
+        z-index: 900;
+        overflow-y: scroll;
+
+        background: white;
+        border-radius: 2px;
+        border: 1px solid #aaa;
+    }
+
+    #closeButton {
+        position: fixed;
+        right: 30px;
+        top: 20px;
+        padding: 8px;
+        color: #fff;
+        background-color: #02550b;
+        opacity: 0.7;
+    }
+
+    #closeButton:hover {
+        cursor: pointer;
+        opacity: 1;
+    }
+
+    #source-field {
+    }
 </style>
-
-<header class="intro-header" >
-    <!-- Signature -->
-    <div id="signature">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                
-                    <div class="site-heading">
-                        <h1>Mono</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">Wish for the Best, Prepare for the Worst</span>
-                    </div>
-                
-
-
-                </div>
-            </div>
+</head>
+<body>
+    <div id="panel">
+        <div id="list">
+            <h1><a href="./index.html">mono</a> / examples</h1>
         </div>
     </div>
-</header>
 
-	
-    <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">slothbrain&#39;s blog</a>
-        </div>
+    <div id="source">
+      <pre id="source-field" style="border: 0" class="prettyprint lang-javascript">
+      </pre>
+  </div>
+  <iframe id="viewer"></iframe>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <!-- Known Issue, found by Hux:
-            <nav>'s height woule be hold on by its content.
-            so, when navbar scale out, the <nav> will cover tags.
-            also mask any touch event of tags, unfortunately.
-        -->
-        <div id="huxblog_navbar">
-            <div class="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/">Home</a>
-                    </li>
+  <script>
+    var files = {
+        "Geometrys(几何体)": [
+        "Geometrys_Cube_立方体",
+        "Geometrys_Sphere",
+        "Geometrys_Cylinder",
+        "Geometrys_Torus",
+        "Geometrys_PathNode",
+        "Geometrys_TextNode",
+        "Geometrys_ShapeNode",
+        "Geometrys_Link",
+        "Geometrys_Line",
+        "Geometrys_PathCube",
+        "Geometrys_PathLine",
+        "Geometrys_Particle",
+        "Geometrys_CSG",
+        "Geometrys_Billboard",
+        ],
+        "Showcase": [
 
-                    
+        "#stuff made with SceneJS",
+        "helloworld",
+        "scenegraph_firstExample",
+        "scenegraph_secondExample",
+        "showcase_BioDigitalHuman",
+        "models_space_earth",
+        "showcase_tank",
+        "cameras_pickFlyOrbit_city",
+        "environments_lawn_teapots"
+        ],
 
-                        
-                    
+        "Configs": [
+        "#SceneJS framework configs",
+        "configs_pluginPath",
+        "configs_disableStatusPopups",
+        "configs_maxTextureSize"
+        ],
 
-                        
-                        <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
+        "Scenegraph": [
+        "#basic scene graph functionality",
+        "scenegraph_firstExample",
+        "scenegraph_secondExample",
+        "scenegraph_depthSort",
+        "scenegraph_fpsControl",
+        "scenegraph_events_misc",
+        "scenegraph_status",
+        "scenegraph_nodes_adding",
+        "scenegraph_nodes_events_rendered",
+        "scenegraph_nodes_instancing",
+        "scenegraph_nodes_moving",
+        "scenegraph_multipleScenes",
+        "scenegraph_webglContextRecovery",
+        "#selectively enabling rendering modes for subgraphs",
+        "scenegraph_enable",
+        "scenegraph_tags",
+        "scenegraph_flags",
+        "scenegraph_flags_backfaces",
+        "scenegraph_flags_enabled",
+        "scenegraph_flags_frontface",
+        "scenegraph_flags_picking",
+        "scenegraph_flags_transparent",
+        "scenegraph_flags_reflective",
+        "scenegraph_flags_skybox"
+        ],
 
-                        
-                        <li>
-                            <a href="/archive/">Archives</a>
-                        </li>
-                        
-                    
+        "Canvas": [
+        "canvas_capture",
+        "canvas_capture_customSize",
+        "canvas_capture_transparent",
+        "canvas_external",
+        "canvas_external_transparent",
+        "canvas_transparent",
+        "canvas_resolutionScaling"
+        ],
 
-                        
-                        <li>
-                            <a href="/demo/">Demo</a>
-                        </li>
-                        
-                    
+        "Cameras": [
 
-                        
-                        <li>
-                            <a href="/mono/">Mono</a>
-                        </li>
-                        
-                    
+        "#controlling the viewpoint",
+        "cameras_orbit",
+        "cameras_orbit_spin",
+        "cameras_trackball_orbit",
+        "cameras_pickFlyOrbit_city",
+        "cameras_pickFlyOrbit_terrain"
+        ],
 
-                        
-                        <li>
-                            <a href="/tags/">Tags</a>
-                        </li>
-                        
-                    
+        "Effects": [
+        "#stereoscopic rendering",
+        "effects_anaglyph",
+        "effects_stereo",
+        "effects_stereo_pickFlyOrbit",
+        "#zspace viewer support",
+        "effects_zspace_cube",
+        "effects_zspace_geometries"
+        ],
 
-                        
-                    
+        "Clipping": [
 
-                        
-                    
+        "#Cross sections",
+        "effects_clipping_solid",
+        "effects_clipping_multiple",
+        "effects_clipping_caps_axis_aligned",
+        "effects_clipping_caps"
+        ],
 
-                        
-                    
+        "Geometry": [
 
-                        
-                    
+        "#defining",
+        "geometry_points",
+        "geometry_lines",
+        "geometry_triangles",
+        "geometry_typedArrays",
+        "geometry_vertexColors",
+        "geometry_vertexColors_alpha",
 
-                        
-                    
+        "#primitives",
+        "geometry_box",
+        "geometry_cylinder",
+        "geometry_plane",
+        "geometry_quad",
+        "geometry_sphere",
+        "geometry_teapot",
+        "geometry_torus",
+        "geometry_torus_wireframe",
+        "geometry_heightmap",
+        // "geometry_heightmap_normalMap",
+        "geometry_heightmap_texture",
+        "geometry_heightmap_fogAndGrid",
+        "geometry_heightmap_texture_video",
+        "geometry_heightmap_transparent",
+        "geometry_vectorText",
 
-                        
-                    
+        "#morphing",
+        "geometry_morphTargets",
+        "geometry_morphTargets_normalMap",
+        "geometry_morphTargets_typedArrays",
 
-                        
-                    
+        "#automatic goodness",
+        "geometry_autoNormals",
 
-                        
-                    
+        "#optimization",
+        "optimization_vertexSharing",
+        "optimization_uintIndex"
+        ],
 
-                        
-                    
 
-                        
-                    
+        "Styles": [
+        "#general styles",
+        "styles_lineWidth"
+        ],
 
-                        
-                    
 
-                        
-                    
+        "Transforms": [
+        "#model",
+        "transforms_modelling_hierarchy",
+        "transforms_modelling_matrix",
+        "transforms_modelling_rotate",
+        "transforms_modelling_scale",
+        "transforms_modelling_translate",
+        "transforms_modelling_quaternion",
 
-                        
-                    
+        "#projection",
+        "transforms_projection_default",
+        "transforms_projection_frustum",
+        "transforms_projection_ortho",
+        "transforms_projection_perspective",
+        "transforms_projection_pan",
 
-                        
-                    
+        "#viewing",
+        "transforms_viewing"
+        ],
 
-                        
-                    
-                    
-                </ul>
-            </div>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
-<script>
-    // Drop Bootstarp low-performance Navbar
-    // Use customize navbar with high-quality material design animation
-    // in high-perf jank-free CSS3 implementation
-    var $body   = document.body;
-    var $toggle = document.querySelector('.navbar-toggle');
-    var $navbar = document.querySelector('#huxblog_navbar');
-    var $collapse = document.querySelector('.navbar-collapse');
+        "Billboards": [
+        "#keeping things oriented towards the viewpoint",
+        "billboards_spherical",
+        "billboards_cylindrical"
+        ],
 
-    $toggle.addEventListener('click', handleMagic)
-    function handleMagic(e){
-        if ($navbar.className.indexOf('in') > 0) {
-        // CLOSE
-            $navbar.className = " ";
-            // wait until animation end.
-            setTimeout(function(){
-                // prevent frequently toggle
-                if($navbar.className.indexOf('in') < 0) {
-                    $collapse.style.height = "0px"
-                }
-            },400)
-        }else{
-        // OPEN
-            $collapse.style.height = "auto"
-            $navbar.className += " in";
+        "Lighting": [
+
+        "#surface material",
+        "lighting_material_defaults",
+        "lighting_material_custom",
+
+        "#light sources",
+        "lighting_ambient",
+        "lighting_defaults",
+        "lighting_directional_view",
+        "lighting_directional_world",
+        "lighting_directional_world_many",
+        "lighting_directional_world_texture",
+        "lighting_point_view",
+        "lighting_point_world",
+        "lighting_spot_view",
+        "lighting_spot_world",
+        "lighting_animated"
+        ],
+
+        "Textures": [
+
+        "#color mapping",
+        "texture_color",
+        "texture_color_add",
+        "texture_color_multiply",
+
+        "#specular mapping",
+        "texture_specular",
+        "texture_specular_add",
+        "texture_specular_multiply",
+
+        "#alpha mapping",
+        "texture_alpha",
+        "texture_alpha_add",
+        "texture_alpha_multiply",
+
+        "#glow mapping",
+        "texture_emit",
+        "texture_emit_add",
+        "texture_emit_multiply",
+
+        "#normal mapping",
+        "texture_normal",
+        "texture_normal_reflect",
+        "texture_normal_pointLights",
+        "texture_normal_pointLights2",
+
+        "#animated blending and transformation",
+        "texture_animation",
+
+        "#video textures",
+        "texture_video_alpha",
+        "texture_video_color",
+        "texture_video_emit",
+        // "texture_video_bump",
+        "texture_video_specular",
+
+        "#canvas textures",
+        "texture_canvas",
+        "texture_canvas_draw",
+        "texture_canvas_draw2",
+        "texture_canvas_interactive",
+        "texture_canvas_alpha",
+
+        "#shader-generated textures",
+        "texture_procedural_color",
+        "texture_procedural_color_mold",
+        "texture_procedural_color_water",
+        "texture_procedural_specular",
+        "texture_procedural_alpha",
+        "texture_procedural_emit",
+
+        "#render-to-texture",
+        "texture_rtt_color",
+        "texture_rtt_depth",
+        "texture_rtt_depthAndColor",
+        "texture_rtt_heightmap",
+        "texture_rtt_sharedTexture",
+        "texture_rtt_manyTextures",
+        "texture_rtt_shader",
+        "texture_rtt_withVideo",
+
+        "#layering textures",
+        "texture_multiTexture",
+        "texture_uvLayers",
+
+        "#preloading textures",
+        "texture_preload",
+
+        "#optimization",
+        "optimization_textureAtlas",
+
+        "#configs",
+        "configs_maxTextureSize"
+        ],
+
+        "Fresnel": [
+        "#fresnel effects",
+        "fresnel_diffuse",
+        "fresnel_specular",
+        "fresnel_alpha",
+        "fresnel_reflect",
+        "fresnel_emit",
+        "fresnel_alpha_reflect",
+        "fresnel_fragment",
+
+        "#tests",
+        "fresnel_emit_panning"
+        ],
+
+
+        "Reflections": [
+        "#reflection using cubemaps",
+        "reflections_custom",
+        "reflections_intensity",
+        "reflections_multipleSeparate",
+        "reflections_multipleCombined",
+        "reflections_shinyRaptor",
+        "reflections_manyObjects",
+        "reflections_heightmap",
+        "reflections_withNormalMap",
+        "reflections_withTransparency",
+        "reflections_withSpecularMaterial",
+        "reflections_withSpecularMap"
+        ],
+
+        "Skyboxes": [
+        "skyboxes_custom",
+        "skyboxes_clouds",
+        "skyboxes_cloudySea",
+        "skyboxes_grimmNight",
+        "skyboxes_interstellarClouds",
+        "skyboxes_miramarClouds",
+        "skyboxes_stormyDays",
+        "skyboxes_violentDays",
+        "skyboxes_reflect",
+        "scenegraph_flags_skybox"
+        ],
+
+        "Multipass": [
+        "#multi-pass rendering",
+        "multipass_twoPasses",
+        "multipass_threePasses"
+        ],
+
+        "Stages": [
+        "#custom effect pipelines",
+        "stages_twoStages",
+        "stages_threeStages",
+        "stages_withPicking",
+        "stages_withReflection",
+        "stages_withSharedShader",
+        "stages_withTransparencySort"
+        ],
+
+        "Layers": [
+        "#prioritised render bins",
+        "layers_enableDisable",
+        "layers_transparencySort"
+        ],
+
+        "Color Buffer": [
+        "#controlling the color buffer",
+        "colorBuffer_colorMask",
+        "colorBuffer_blendEnabled"
+        ],
+
+        "Depth Buffer": [
+        "#controlling the depth buffer",
+        "depthBuffer_clearDepth",
+        "depthBuffer_depthFunc",
+        "depthBuffer_enableDisable"
+        ],
+
+        "Stencil Buffer": [
+        "#controlling the stencil buffer",
+        "stencilBuffer_clearStencil",
+        "stencilBuffer_stencilFunc",
+        "stencilBuffer_stencilOp",
+        "stencilBuffer_enableDisable",
+        "stencilBuffer_separateFrontAndBack"
+        ],
+
+        "Shaders": [
+        "shaders_fog",
+        "shaders_xray",
+        "shaders_scanline",
+        "shaders_vertexDisplacement",
+        "shaders_custom_material_color",
+        "shaders_custom_water",
+        "shaders_custom_withTexture",
+        "shaders_custom_withTwoTextures",
+        "shaders_custom_withThreeTextures"
+        ],
+
+        "Postprocessing": [
+        "postprocessing_blur",
+        "postprocessing_depthOfField",
+        "postprocessing_depthOfField_autofocus",
+        "postprocessing_depthOfField_autofocus_grid",
+        "postprocessing_scanlines",
+        "postprocessing_sepia",
+        "postprocessing_scanlinesAndSepia",
+        "postprocessing_technicolor"
+        ],
+
+        "Physics": [
+
+        "#CannonJS",
+        "physics_cannonjs",
+
+        "#JigLibJS",
+        "physics_balls",
+        "physics_boxes",
+
+        "#multiple JibLibJS physics systems in worker threads",
+        "physics_multithreaded",
+
+        "#physical material attributes",
+        "physics_materials"
+        ],
+
+        "Picking": [
+        "picking_basic",
+        "picking_disabling",
+        "picking_names",
+        "picking_spheres",
+        "picking_throughTransparency",
+
+        "#ray picking",
+        "picking_rayPicking",
+        "picking_rayPicking_onTransparentObject",
+        "picking_rayPicking_triangles",
+        "picking_rayPicking_trianglePerformance",
+        "picking_rayPicking_transforms",
+        "picking_rayPicking_morphTargets",
+        "picking_rayPicking_performance",
+
+        "#picking with an arbitrary ray",
+        "picking_rayPicking_arbitraryRay",
+
+        "#region picking",
+        "picking_regions_info",
+        "picking_regions_highlight",
+        "picking_regions_hide",
+        "picking_regions_isolate",
+        "picking_regions_multiTexture",
+        "picking_emptyPixels"
+        ],
+
+        "Importing": [
+        "importing_3ds_lexus",
+        "importing_3ds_comet",
+        "importing_md2_lion",
+        "importing_obj_duck",
+        "importing_obj_raptor"
+
+        ],
+
+        "Profiling": [
+        "#measuring performance",
+        "profiling_statistics"
+        ],
+
+        "Optimization": [
+        "#optimizing your scene graphs",
+        "optimization_discreteLOD",
+        "optimization_frustumClipping",
+        "optimization_instancing",
+        "optimization_textureAtlas",
+        "optimization_vertexSharing",
+        "optimization_indexSize",
+        "optimization_uintIndex"
+        ],
+
+        "Benchmarks": [
+        "#performance tests",
+        "benchmarks_5000boxes",
+        "benchmarks_10000boxes",
+        "benchmarks_40000boxes",
+        "benchmarks_transparent_2500boxes",
+        "benchmarks_transparent_5000boxes",
+        "benchmarks_transparent_10000boxes"
+        ],
+
+        "Extending": [
+        "#adding new node types to SceneJS",
+        "extending_nodes_custom",
+        "extending_nodes_custom_animation",
+        "extending_nodes_custom_pubSub",
+        "extending_nodes_custom_tasks"
+        ],
+
+        "Environments": [
+        "#prebuilt scene setups with camera, lights, effects etc.",
+        "environments_lawn_teapots",
+        "environments_lawn_city",
+        "environments_gridRoom_teapot",
+        "environments_modelView_teapot"
+        ],
+
+        "Models": [
+        "#models from the examples library",
+        "models_vehicles_tank",
+        "models_buildings_city",
+        "models_space_earth",
+        "models_backgrounds_gradient",
+        "models_backgrounds_water",
+        "models_plants_ghostTree"
+        ]
+    };
+
+    var list = document.getElementById('list');
+    var viewer = document.getElementById('viewer');
+
+    var container = document.createElement('div');
+    list.appendChild(container);
+
+    var closeButton = document.createElement('div');
+    closeButton.id = 'closeButton';
+    closeButton.textContent = 'Close';
+    closeButton.addEventListener('click', function (event) {
+        document.getElementById('source').style.display = 'none'
+    }, false);
+
+    var sourceWindow = document.getElementById('source');
+    sourceWindow.appendChild(closeButton);
+    sourceWindow.style.display = 'none';
+
+    var sourceButton = document.createElement('div');
+    sourceButton.id = 'sourceButton';
+    sourceButton.textContent = 'Source code';
+
+    sourceButton.addEventListener('click', function (event) {
+        updateSource();
+        document.getElementById('source').style.display = '';
+    }, false);
+
+    sourceButton.style.display = 'none';
+    document.body.appendChild(sourceButton);
+
+    var catDivs = {};
+    var divs = {};
+    var selected = null;
+    var index = 1;
+    var indexStr;
+
+    // Table of contents
+    var div = document.createElement('h2');
+    div.textContent = "Contents/目录";
+    container.appendChild(div);
+    container.appendChild(document.createElement('hr'));
+    for (var key in files) {
+        var section = files[key];
+        var div = document.createElement('div');
+        div.className = 'link';
+        indexStr = "[" + index++ + "]. ";
+        // for (var i = indexStr.length, len = 40; i < len; i++) {
+        //     indexStr += ".";
+        // }
+        div.textContent = indexStr + key;
+        div.addEventListener('click', (function () {
+            var k = key;
+            return function () {
+                catDivs[k].scrollIntoView();
+            }
+        })());
+        container.appendChild(div);
+    }
+
+    container.appendChild(document.createElement('hr'));
+    container.appendChild(document.createElement('br'));
+
+    _index = 1;
+
+    for (var key in files) {
+        var section = files[key];
+        var div = document.createElement('h2');
+        div.textContent = _index++ + "." + key;
+        container.appendChild(div);
+        catDivs[key] = div;
+        for (var i = 0; i < section.length; i++) {
+            var file = section[i];
+            if (file.charAt(0) == "#") {
+                var div = document.createElement('div');
+                div.textContent = "// " + file.substring(1);
+                div.className = (i == 0 ? 'infoFirst' : 'info');
+                container.appendChild(div);
+                continue;
+            }
+            (function (file) {
+                var name = file.split('_');
+                name.shift();
+                name = name.join(' / ');
+                var div = document.createElement('div');
+                div.className = 'link';
+                div.textContent = name; // expandCamel(name);
+                div.addEventListener('click', function () {
+                    load(file);
+                });
+                container.appendChild(div);
+                divs[file] = div;
+            })(file);
         }
     }
-</script>
 
-
-    <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
-
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
-            <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            
-                <blockquote>
-<p>光有好奇心而不去實踐，等於自願放棄成功機會<br>別為自己畫地自限，Just Do It！！</p>
-</blockquote>
-<p><img src="fujieerweima.png" alt="微信二维码"></p>
-
-
-                <!-- 如果开启评论功能 -->
-                
-                    <hr>
-
-                    
-
-                    
-                    <!-- disqus 评论框 start -->
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
-                    <!-- disqus 评论框 end -->
-                    
-
-
-                    
-
-                    
-                    <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
-                    <script type="text/javascript">
-                        /* * * CONFIGURATION VARIABLES * * */
-                        var disqus_shortname = "abopaper";
-                        var disqus_identifier = "https://slothbrain.github.io/mono/index.html";
-                        var disqus_url = "https://slothbrain.github.io/mono/index.html";
-
-                        (function() {
-                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                        })();
-
-                        
-                    </script>
-                    <!-- disqus 公共JS代码 end -->
-                    
-                
-            </div>
-
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Featured Tags -->
-
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
-            
-        
-            
-        
-            
-            <a href="/tags/#图形学" title="图形学" rel="6">图形学</a>
-            
-        
-            
-            <a href="/tags/#数学" title="数学" rel="2">数学</a>
-            
-        
-    </div>
-</section>
-
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
-
-        
-            <img id = "avatar_pic" src="/img/signature/adult-1869825_640.jpg" />
-        
-
-        
-            <p>追求自由、追求知识、追求梦想的攻城狮,喜欢篮球、喜欢写字、喜欢自我!</p>
-        
-
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
-                <li>
-                    <a target="_blank" href="https://www.zhihu.com/people/abopaper">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa  fa-stack-1x fa-inverse">知</i>
-                        </span>
-                    </a>
-                </li>
-            
-
-            
-                <li>
-                    <a target="_blank" href="http://weibo.com/melonio">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-
-            
-
-            
-                <li>
-                    <a target="_blank"  href="https://github.com/abopaper">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
-        <hr>
-    
-        
-  <h5>RECENT POSTS</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/2017/11/02/hello-world/">Hello World</a>
-        </li>
-      
-        <li>
-          <a href="/2017/08/16/Javascript性能分析/">Javascript性能分析</a>
-        </li>
-      
-        <li>
-          <a href="/2017/07/15/数字图像处理/">数字图像处理Javascript</a>
-        </li>
-      
-        <li>
-          <a href="/2017/05/20/光线追踪/">光线追踪</a>
-        </li>
-      
-        <li>
-          <a href="/2017/05/18/计算机图形学学习笔记/">计算机图形学学习笔记</a>
-        </li>
-      
-    </ul>
-  </div>
-
-        <hr>
-    
-        <!-- Friends Blog -->
-
-<h5>FRIENDS</h5>
-<ul class="list-inline">
-
-    
-        <li><a href="http://candycat1992.github.io/" target="_blank">冯乐乐(上海交大)</a></li>
-    
-        <li><a href="http://www.iquilezles.org/www/index.htm" target="_blank">Iq Blog</a></li>
-    
-        <li><a href="http://aras-p.info/blog/" target="_blank">Aras Blog</a></li>
-    
-        <li><a href="http://www.xuanyusong.com/" target="_blank">雨松MOMO的Blog</a></li>
-    
-        <li><a href="http://blog.codingnow.com/" target="_blank">云风的Blog</a></li>
-    
-        <li><a href="https://kingdom017.me/" target="_blank">Kingdom的Blog</a></li>
-    
-        <li><a href="http://madstrawberry.me/" target="_blank">疯草莓的Blog</a></li>
-    
-        <li><a href="http://qiankanglai.me/" target="_blank">Kanglai的Blog</a></li>
-    
-        <li><a href="http://www.jianshu.com/c/3cd81fce72f7" target="_blank">可视化SDK</a></li>
-    
-        <li><a href="http://www.flickering.cn/" target="_blank">火光摇曳</a></li>
-    
-</ul>
-
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
-
-
-    <!-- Footer -->
-    <!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                
-                
-                
-                    <li>
-                        <a target="_blank" href="https://www.zhihu.com/people/abopaper">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa  fa-stack-1x fa-inverse">知</i>
-                            </span>
-                        </a>
-                    </li>
-                
-
-                
-                    <li>
-                        <a target="_blank" href="http://weibo.com/melonio">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank"  href="https://github.com/abopaper">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-
-                
-
-                </ul>
-                <p class="copyright text-muted">
-                    Copyright &copy; Jeff.fu 2017 
-                    <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- jQuery -->
-<script src="/js/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/js/bootstrap.min.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="/js/hux-blog.min.js"></script>
-
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
+    function expandCamel(str) {
+        return str.replace(/([A-Z])/g, function ($1) {
+            return " " + $1.toLowerCase();
+        });
     }
+    var updateSource = function (change) {
+        var array = location.href.split('/');
+
+        array.pop();
+        var htmlfile = array.join('/') + '/' + selected + '.html';
+        var srcReg = /<script[^<]*<\/script>/mg;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', htmlfile, true);
+        xhr.onreadystatechange = function () {
+            if (this.readyState !== 4) return;
+            if (this.status !== 200) return;
+
+            var source = this.responseText;
+            var lines = source.split('\n');
+            var start = 0, end = lines.length;
+            for (var i = 0; i < lines.length; i++) {
+                if (lines[i].trim() == '<script>') {
+                    start = i;
+                }
+                if (lines[i].trim() == '<\/script>') {
+                    end = i;
+                }
+            }
+
+            source = lines.splice(start + 1, end - 1).join('\n');
+
+            var srcField = document.getElementById('source-field');
+            srcField.innerHTML = source;
+
+            prettyPrint();
+        };
+        xhr.send();
+
+        //window.open('view-source:' + htmlfile);
+    };
+
+    var load = function (file) {
+        if (selected !== null) divs[selected].className = 'link';
+        divs[file].className = 'link selected';
+        window.location.hash = file;
+        viewer.src = './examples/' + file + '.html';
+        viewer.focus();
+        sourceButton.style.display = '';
+        selected = file;
+        updateSource();
+    };
+
+    viewer.src = 'scenegraph_helloworld' + '.html';
+    viewer.focus();
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
-
-
-<!-- jquery.tagcloud.js -->
-<script>
-    // only load tagcloud.js in tag.html
-    if($('#tag_cloud').length !== 0){
-        async("https://slothbrain.github.io/js/jquery.tagcloud.js",function(){
-            $.fn.tagcloud.defaults = {
-                //size: {start: 1, end: 1, unit: 'em'},
-                color: {start: '#bbbbee', end: '#0085a1'},
-            };
-            $('#tag_cloud a').tagcloud();
-        })
-    }
-</script>
-
-<!--fastClick.js -->
-<script>
-    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-
-<!-- Google Analytics -->
-
-
-
-
-<!-- Baidu Tongji -->
-
-
-
-
-
-
-	<a id="rocket" href="#top" class=""></a>
-	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="https://slothbrain.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
-
 </html>
