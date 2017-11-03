@@ -15,7 +15,11 @@
             mono.Utils.autoAdjustNetworkBounds(network,document.documentElement,'clientWidth','clientHeight');
 
             //2、添加光源
-            var ambientLight = window.ambientLight = new mono.AmbientLight(0x888888);
+            var pointLight = new mono.PointLight(0xFFFFFF,1.5);
+            pointLight.setPosition(1000,1000,1000);
+            box.add(pointLight);
+
+            var ambientLight = new mono.AmbientLight(0x888888);
             box.add(ambientLight);
 
             //3、添加物体
@@ -52,16 +56,18 @@
 
             new SceneAttribute(gui.addFolder('场景配置'),{
                 ambientLight:true,
+                pointLight: true,
             }, {
                 box: box,
                 network: network,
-                ambientLight: ambientLight
+                ambientLight: ambientLight,
+                pointLight: pointLight
             });
 
             //环境光属性
             var ui = gui.addFolder('AmbientLight/环境光');
             new AmbientLightAttribute(ui, {
-                color:"#" + ambientLight.color.getHexString(),//光照颜色
+                color: "#" + ambientLight.color.getHexString(),//光照颜色
                 ambient:"#" + ambientLight.color.getHexString(),//环境光颜色
                 diffuse:"#" + ambientLight.color.getHexString(),//散射光颜色值
                 specular:"#" + ambientLight.color.getHexString(),//镜面光颜色值
@@ -72,6 +78,27 @@
                 box: box,
                 network: network,
                 target: ambientLight
+            });
+
+            //点光源属性
+            var ui = gui.addFolder('PointLight/点光源');
+            new PointLightAttribute(ui, {
+                color: '#' + pointLight.color.getHexString(),//光照颜色
+                ambient: '#' + pointLight.color.getHexString(),//环境光颜色
+                diffuse:'#' +  pointLight.color.getHexString(),//散射光颜色值
+                specular:'#' + pointLight.color.getHexString(),//镜面光颜色值
+                castShadow:false,//是否投射灯光的阴影
+                onlyShadow:false,//光源仅投射阴影，而没有照亮物体的效果
+                intensity: 1,//光照的强度值
+                distance: 0,//光照的衰减距离
+                x:pointLight._position.x,//点光源的位置x
+                y:pointLight._position.y,//点光源的位置y
+                z:pointLight._position.z,//点光源的位置z
+            },
+            {
+                box: box,
+                network: network,
+                target: pointLight
             });
             ui.open();
 
