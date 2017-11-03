@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Mono Test</title>
+    <meta charset="utf-8">
     <script type="text/javascript" src="../lib/dat.gui.js"></script>
     <script type="text/javascript" src = "../lib/t.js"></script>
     <script type="text/javascript" src = "../lib/attr.js"></script>
@@ -23,8 +24,9 @@
             var cube = window.cube =  new mono.Cube(200, 200, 200);
             cube.s({
                 'm.type': 'phong',
-                'm.color': 'green',
-                'm.ambient': 'green',
+                'm.texture.image': './images/box.jpg',
+                // 'm.color': 'green',
+                // 'm.ambient': 'green',
             });
             cube.setRotation(-Math.PI/10, -Math.PI/5, Math.PI/10);
             box.add(cube);
@@ -48,6 +50,16 @@
                 }
             });
             attr.open();
+
+            //对象的基本属性
+            var styleAttr = new Style(box);
+            var attr = gui.addFolder('对象属性');
+            attr.add(styleAttr, 'm.texture.image',[ './images/box.jpg', './images/box2.jpg', 'hooray' ]).onFinishChange(function(value) {
+                var box = this.object.obj, property = this.property;
+                if(box instanceof mono.DataBox) {
+                    cube.setStyle(property, value);
+                }
+            });
         }
     </script>
 </head>

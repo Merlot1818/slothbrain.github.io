@@ -176,7 +176,8 @@
   <script>
     var files = {
         "Lights/光源":[
-        "Lights_AmbientLight_环境光"
+        "Lights_AmbientLight_环境光",
+        "Lights_PointLight_点光源"
         ],
         "Geometrys/几何体": [
         "Geometrys_Cube_立方体",
@@ -769,7 +770,7 @@
         var array = location.href.split('/');
 
         array.pop();
-        var htmlfile = array.join('/') + '/' + selected + '.html';
+        var htmlfile = array.join('/') + '/' + 'examples/' + selected + '.html';
         var srcReg = /<script[^<]*<\/script>/mg;
 
         var xhr = new XMLHttpRequest();
@@ -799,7 +800,7 @@
         };
         xhr.send();
 
-        //window.open('view-source:' + htmlfile);
+        // window.open('view-source:' + htmlfile);
     };
 
     var load = function (file) {
@@ -815,6 +816,9 @@
 
     viewer.src = 'scenegraph_helloworld' + '.html';
     viewer.focus();
+    sourceButton.style.display = '';
+    selected = file;
+    updateSource();
 </script>
 
 </body>

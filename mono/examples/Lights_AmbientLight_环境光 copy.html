@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mono Test</title>
+    <script type="text/javascript" src="../lib/dat.gui.js"></script>
+    <script type="text/javascript" src = "../lib/t.js"></script>
+    <script type="text/javascript" src = "../lib/attr.js"></script>
+    <script type="text/javascript">
+        function init(){
+            //1、创建DataBox和Network
+            var gui = new dat.GUI();
+            var box = new mono.DataBox();
+            var network = new mono.Network3D(box, null, monoCanvas);
+            mono.Utils.autoAdjustNetworkBounds(network,document.documentElement,'clientWidth','clientHeight');
+
+            //2、添加光源
+            var pointLight = new mono.PointLight(0xFFFFFF,1.5);
+            pointLight.setPosition(1000,1000,1000);
+            box.add(pointLight);
+            var ambientLight = new mono.AmbientLight(0x888888);
+            box.add(ambientLight);
+
+            //3、添加物体
+            for(var i = 0; i < 10; i++){
+                for(var j = 0; j < 10; j++){
+                    var cube = new mono.Cube(8, 8, 8);
+                    cube.setName('node '+i);
+                    cube.c({
+                        'type':'cube'
+                    });
+                    cube.s({
+                        'm.type': 'phong',
+                        'm.texture.image': './images/box.jpg',
+                        // 'm.color': 'green',
+                        // 'm.ambient': 'green',
+                    });
+                    cube.setPosition((i-5)*20+cube.getWidth(), cube.getHeight()/2, (j-5)*20+cube.getDepth());
+                    box.add(cube);
+                }
+            }
+
+            var floor = new mono.Cube(220, 1, 220);
+            floor.s({
+                'm.type': 'phong',
+                'm.repeat': new mono.Vec2(10, 10),
+            });
+            floor.setPositionY(-floor.getHeight()/2);
+            box.add(floor);
+
+            //场景的基本属性
+            var BasicAttribute = function(box, network) {
+                this.box = box;
+                this.network = network;
+                this.pointLight = true;
+                this.ambientLight = true;
+                this.explode = function(value) {
+
+                }
+            } 
+
+            var basicAttr = new BasicAttribute(box, network);
+            var attr = gui.addFolder('场景配置');
+            attr.add(basicAttr, 'pointLight').onChange(function(value) {
+                if(value) {
+                    this.object.box.add(pointLight);
+                }else {
+                    this.object.box.remove(pointLight);
+                }
+            });
+            attr.add(basicAttr, 'ambientLight').onChange(function(value) {
+                if(value) {
+                    this.object.box.add(ambientLight);
+                }else {
+                    this.object.box.remove(ambientLight);
+                }
+            });
+
+            //点光源属性
+            var LightAttribute = function(obj) {
+                this.obj = obj;
+                this.color = obj.color.getHexString();//光照颜色
+                this.ambient = obj.ambient.getHexString();//环境光颜色
+                this.diffuse = obj.diffuse.getHexString();//散射光颜色值
+                this.specular = obj.specular.getHexString();//镜面光颜色值
+                this.position = obj.position;
+                this.intensity = obj.intensity;//光照的强度值
+                this.distance = obj.distance;//光照的衰减距离
+            }
+            //环境光属性
+            var lightAttr = new LightAttribute(ambientLight);
+            var attr = gui.addFolder('环境光');
+            attr.add(lightAttr, 'color').onFinishChange(function(value) {
+                var func = mono.setter(this.property);
+                if(this.object.obj[func]) {
+                    this.object.obj[func](new mono.Color('#' + value));
+                }
+            });
+            attr.add(lightAttr, 'ambient').onFinishChange(function(value) {
+                var func = mono.setter(this.property);
+                if(this.object.obj[func]) {
+                    this.object.obj[func](new mono.Color('#' + value));
+                }
+            });
+            attr.add(lightAttr, 'diffuse').onFinishChange(function(value) {
+                var func = mono.setter(this.property);
+                if(this.object.obj[func]) {
+                    this.object.obj[func](new mono.Color('#' + value));
+                }
+            });
+            attr.add(lightAttr, 'specular').onFinishChange(function(value) {
+                var func = mono.setter(this.property);
+                if(this.object.obj[func]) {
+                    this.object.obj[func](new mono.Color('#' + value));
+                }
+            });
+            attr.open();
+
+            //点光源属性
+            var lightAttr = new LightAttribute(pointLight);
+            var attr = gui.addFolder('点灯光');
+            attr.add(lightAttr, 'color').onFinishChange(function(value) {
+                var func = mono.setter(this.property);
+                if(this.object.obj[func]) {
+                    this.object.obj[func](new mono.Color('#' + value));
+                }
+            });
+            attr.add(lightAttr, 'ambient').onFinishChange(function(value) {
+                var func = mono.setter(this.property);
+                if(this.object.obj[func]) {
+                    this.object.obj[func](new mono.Color('#' + value));
+                }
+            });
+            attr.add(lightAttr, 'diffuse').onFinishChange(function(value) {
+                var func = mono.setter(this.property);
+                if(this.object.obj[func]) {
+                    this.object.obj[func](new mono.Color('#' + value));
+                }
+            });
+            attr.add(lightAttr, 'specular').onFinishChange(function(value) {
+                var func = mono.setter(this.property);
+                if(this.object.obj[func]) {
+                    this.object.obj[func](new mono.Color('#' + value));
+                }
+            });
+
+            //对象的基本属性
+            var styleAttr = new Style(box);
+            var attr = gui.addFolder('对象属性');
+            attr.add(styleAttr, 'm.type', ['basic', 'phong']).onFinishChange(function(value) {
+                var box = this.object.obj, property = this.property;
+                if(box instanceof mono.DataBox) {
+                    box.getDatas().forEach(function(data) {
+                        if(data.getClient('type') === 'cube') {
+                            data.setStyle(property, value);
+                        }
+                    });
+                }
+            });
+
+            attr.add(styleAttr, 'm.texture.image',[ './images/box.jpg', './images/box2.jpg', 'null' ]).onFinishChange(function(value) {
+                var box = this.object.obj, property = this.property;
+                if(box instanceof mono.DataBox) {
+                    box.getDatas().forEach(function(data) {
+                        if(data.getClient('type') === 'cube') {
+                            if(value === 'null') {
+                                data.setStyle(property, null);
+                            }else {
+                                data.setStyle(property, value);
+                            }
+                        }
+                    });
+                }
+            });
+
+            attr.add(styleAttr, 'm.color').onFinishChange(function(value) {
+                var box = this.object.obj, property = this.property;
+                if(box instanceof mono.DataBox) {
+                    box.getDatas().forEach(function(data) {
+                        data.setStyle(property, value);
+                    });
+                }
+            });
+
+            attr.add(styleAttr, 'm.ambient').onFinishChange(function(value) {
+                var box = this.object.obj, property = this.property;
+                if(box instanceof mono.DataBox) {
+                    box.getDatas().forEach(function(data) {
+                        data.setStyle(property, value);
+                    });
+                }
+            });
+        }
+    </script>
+</head>
+<body onload = 'init()'>
+    <div>
+        <canvas id="monoCanvas"/>
+    </div>
+</body>
+</html>
