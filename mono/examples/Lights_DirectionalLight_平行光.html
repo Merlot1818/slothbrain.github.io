@@ -15,12 +15,19 @@
             mono.Utils.autoAdjustNetworkBounds(network,document.documentElement,'clientWidth','clientHeight');
 
             //2、添加光源
+            //点光源
             var pointLight = new mono.PointLight(0xFFFFFF,1.5);
             pointLight.setPosition(1000,1000,1000);
             box.add(pointLight);
 
+            //环境光
             var ambientLight = new mono.AmbientLight(0x888888);
             box.add(ambientLight);
+
+            //平行光
+            var directionalLight = new mono.DirectionalLight(0x888888);
+            directionalLight.setDirection(new mono.Vec3(0, 1, 0));
+            box.add(directionalLight);
 
             //3、添加物体
             for(var i = 0; i < 10; i++){
@@ -57,11 +64,13 @@
             new SceneAttribute(gui.addFolder('场景配置'),{
                 ambientLight:true,
                 pointLight: true,
+                directionalLight: true,
             }, {
                 box: box,
                 network: network,
                 ambientLight: ambientLight,
-                pointLight: pointLight
+                pointLight: pointLight,
+                directionalLight:directionalLight
             });
 
             //环境光属性
@@ -99,6 +108,28 @@
                 box: box,
                 network: network,
                 target: pointLight
+            });
+            
+
+            //平行光
+            var ui = gui.addFolder('directionalLight/平行光');
+            new DirectionalLightAttribute(ui, {
+                color: '#' + directionalLight.color.getHexString(),//光照颜色
+                ambient: '#' + directionalLight.color.getHexString(),//环境光颜色
+                diffuse:'#' +  directionalLight.color.getHexString(),//散射光颜色值
+                specular:'#' + directionalLight.color.getHexString(),//镜面光颜色值
+                castShadow:false,//是否投射灯光的阴影
+                onlyShadow:false,//光源仅投射阴影，而没有照亮物体的效果
+                intensity: 1,//光照的强度值
+                distance: 0,//光照的衰减距离
+                directionX:directionalLight.direction.x,//平行光方向x
+                directionY:directionalLight.direction.y,//平行光方向y
+                directionZ:directionalLight.direction.z,//平行光方向z
+            },
+            {
+                box: box,
+                network: network,
+                target: directionalLight
             });
             ui.open();
 

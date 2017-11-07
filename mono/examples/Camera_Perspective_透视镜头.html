@@ -14,6 +14,12 @@
             var network = new mono.Network3D(box, null, monoCanvas);
             mono.Utils.autoAdjustNetworkBounds(network,document.documentElement,'clientWidth','clientHeight');
 
+            //配置Camera属性，默认network中会创建Camera
+            var camera =  window.camera = network.getCamera();
+            camera.setPosition(82, 48, 136); 
+            camera.look(new mono.Vec3(0,-10,20));
+            camera.setFov(50);
+
             //添加光源
             var pointLight1 = new mono.PointLight(0xFFFFFF,0.1);
             pointLight1.setPosition(0,1000,0);
@@ -31,26 +37,43 @@
             box.add(ambientLight);
 
             //添加物体
-            var cube = new mono.Cube(80, 80, 80);
-            cube.setName('node');
-            cube.c({
-                'type':'cube'
-            });
-            cube.s({
+            for(var i = 0; i < 10; i++){
+                for(var j = 0; j < 10; j++){
+                    var cube = new mono.Cube(8, 8, 8);
+                    cube.setName('node '+i);
+                    cube.c({
+                        'type':'cube'
+                    });
+                    cube.s({
+                        'm.type': 'phong',
+                        'm.texture.image': './images/box.jpg',
+                        'm.color': 'white',
+                        'm.ambient': 'white',
+                    });
+                    cube.setPosition((i-5)*20+cube.getWidth(), cube.getHeight()/2, (j-5)*20+cube.getDepth());
+                    box.add(cube);
+                }
+            }
+
+            var floor = new mono.Cube(220, 1, 220);
+            floor.s({
                 'm.type': 'phong',
-                'm.texture.image': './images/box.jpg',
-                'm.color': 'white',
-                'm.ambient': 'white',
+                'm.repeat': new mono.Vec2(10, 10),
+                'm.color': 'gray',
+                'm.ambient': 'gray',
             });
-            cube.setPosition(0, cube.getHeight()/2, 0);
-            cube.setRotation(0,10,20);
-            box.add(cube);
+            floor.c({
+                'type':'floor'
+            });
+            floor.setPositionY(-floor.getHeight()/2);
+            box.add(floor);
 
             new SceneAttribute(gui.addFolder('场景配置'),{
                 ambientLight:true,
                 pointLight1: true,
                 pointLight2: true,
                 pointLight3: true,
+                camera:true,
             }, {
                 box: box,
                 network: network,
@@ -58,6 +81,7 @@
                 pointLight1: pointLight1,
                 pointLight2: pointLight2,
                 pointLight3: pointLight3,
+                camera: camera
             });
 
             //环境光属性
@@ -138,35 +162,47 @@
                 target: pointLight3
             });
 
-            //对象的基本属性
-            var ui = gui.addFolder('BasicAttribute/基本属性');
-            new BasicAttribute(ui, {
-                width:[100,3000],
-                height:[100,3000],
+            //Camera镜头属性
+            var ui = gui.addFolder('Camera/透视镜头');
+            new CameraAttribute(ui, {
+                x:camera._position.x,//点光源的位置x
+                y:camera._position.y,//点光源的位置y
+                z:camera._position.z,//点光源的位置z
+                fov: 50,
+                lookX: 0,
+                lookY: 0,
+                lookZ: 0
             },
             {
                 box: box,
                 network: network,
-                target: box
+                target: camera
             });
+            ui.open();
 
+
+            //对象的基本属性
             var ui = gui.addFolder('Style/样式属性');
             new StyleAttribute(ui, {
                 'm.type':['basic','phong'],
                 'm.texture.image':[ './images/box.jpg', './images/box2.jpg', 'null' ],
                 'm.color':'#FFFFFF',
-                'm.ambient':'#FFFFFF',
-                'm.wireframe':false,
-                'm.wireframeLinewidth': 2,
-                'm.wireframeLinecolor': '#FF00FF',
-                'm.wireframeLineopacity': 1,
+                'm.ambient':'#FFFFFF'
             },
             {
                 box: box,
                 network: network,
-                target:box,
+                filter: function(data, property) {
+                    if(data.getClient('type') === 'cube') return true;
+                    if(data.getClient('type') === 'floor') {
+                        if('m.type' === property) {
+                            return true;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
             });
-            ui.open();
         }
     </script>
 </head>

@@ -8,60 +8,75 @@
     <script type="text/javascript" src = "../lib/attr.js"></script>
     <script type="text/javascript">
         function init(){
-            //1、创建DataBox和Network
+            //创建DataBox和Network
             var gui = new dat.GUI();
             var box = new mono.DataBox();
             var network = new mono.Network3D(box, null, monoCanvas);
             mono.Utils.autoAdjustNetworkBounds(network,document.documentElement,'clientWidth','clientHeight');
 
-            //2、添加光源
-            var pointLight = new mono.PointLight(0xFFFFFF,1.5);
-            pointLight.setPosition(1000,1000,1000);
+            //配置Camera属性，默认network中会创建Camera
+            var orthoCamera = new mono.OrthoCamera();
+            orthoCamera.setPosition(new mono.Vec3(50,300,50));
+            orthoCamera.lookat(50, 0, 50);
+            network.setCamera(orthoCamera);
+
+            //添加光源
+            var pointLight = new mono.PointLight(0xFFFFFF,1.1);
+            pointLight.setPosition(0,1000,0);
             box.add(pointLight);
 
             var ambientLight = new mono.AmbientLight(0x888888);
             box.add(ambientLight);
 
-            //3、添加物体
-            for(var i = 0; i < 10; i++){
-                for(var j = 0; j < 10; j++){
-                    var cube = new mono.Cube(8, 8, 8);
-                    cube.setName('node '+i);
-                    cube.c({
-                        'type':'cube'
-                    });
-                    cube.s({
-                        'm.type': 'phong',
-                        'm.texture.image': './images/box.jpg',
-                        'm.color': 'white',
-                        'm.ambient': 'white',
-                    });
-                    cube.setPosition((i-5)*20+cube.getWidth(), cube.getHeight()/2, (j-5)*20+cube.getDepth());
-                    box.add(cube);
-                }
-            }
+            //添加物体
+            var path = new mono.Path();
+            path.moveTo(0, 0,0);
+            path.lineTo(100, 0, 0);
+            path.lineTo(100, 50, 0);
+            path.lineTo(50, 50, 0);
+            path.lineTo(50, 100, 0);
+            path.lineTo(0, 100, 0);
+            path.lineTo(0, 70, 0);
+            path.curveTo(-40,50,0,0,30,0);
+            path.lineTo(0,25,0);        
 
-            var floor = new mono.Cube(220, 1, 220);
-            floor.s({
+            var wall = new mono.PathCube(path,3,30,32,10);
+            wall.s({
+                'm.texture.image': './images/wall2.png',
                 'm.type': 'phong',
-                'm.repeat': new mono.Vec2(10, 10),
-                'm.color': 'gray',
-                'm.ambient': 'gray',
+                'm.color': '#CEE3F6',
+                'm.ambient': '#CEE3F6',
+                'outside.m.lightmap.image': './images/outside_lightmap.jpg',
+                'inside.m.lightmap.image': './images/inside_lightmap.jpg',
             });
-            floor.c({
-                'type':'floor'
+            wall.setPosition(0, 0, 100);
+            box.add(wall);
+
+            var floor = new mono.Plane(150, 150, 20, 20);
+            floor.s({
+                'm.wireframe': true,
+                'm.color': '#CEE3F6',
+                'm.side': mono.DoubleSide,
+                'm.type': 'phong',
+                'm.wireframe': true,
+                'm.wireframeLinewidth': 50,
+                'm.wireframeLinecolor': 'red',
+                'm.wireframeLineopacity': 1,
             });
-            floor.setPositionY(-floor.getHeight()/2);
+            floor.setRotation(Math.PI/2,Math.PI,Math.PI/2);
+            floor.setPosition(50, 0, 50);
             box.add(floor);
 
             new SceneAttribute(gui.addFolder('场景配置'),{
                 ambientLight:true,
                 pointLight: true,
+                orthoCamera:true,
             }, {
                 box: box,
                 network: network,
                 ambientLight: ambientLight,
-                pointLight: pointLight
+                pointLight: pointLight,
+                orthoCamera: orthoCamera
             });
 
             //环境光属性
@@ -79,9 +94,10 @@
                 network: network,
                 target: ambientLight
             });
+            
 
             //点光源属性
-            var ui = gui.addFolder('PointLight/点光源');
+            var ui = gui.addFolder('PointLight/点光源1');
             new PointLightAttribute(ui, {
                 color: '#' + pointLight.color.getHexString(),//光照颜色
                 ambient: '#' + pointLight.color.getHexString(),//环境光颜色
@@ -99,6 +115,23 @@
                 box: box,
                 network: network,
                 target: pointLight
+            });
+
+            //Camera镜头属性
+            var ui = gui.addFolder('OrthoCamera/正交镜头');
+            new CameraAttribute(ui, {
+                x:orthoCamera._position.x,//点光源的位置x
+                y:orthoCamera._position.y,//点光源的位置y
+                z:orthoCamera._position.z,//点光源的位置z
+                fov: 50,
+                lookX: 0,
+                lookY: 0,
+                lookZ: 0,
+            },
+            {
+                box: box,
+                network: network,
+                target: orthoCamera
             });
             ui.open();
 
