@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          TWaver | Jeff.fu
+          影视 - TWaver | Jeff.fu
         
     </title>
 
-    <link rel="canonical" href="https://slothbrain.github.io/demo/raytrace/rayTrace.html">
+    <link rel="canonical" href="https://slothbrain.github.io/movie/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,7 +69,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/undefined')
+            background-image: url('/img/header_img/christmas-1900489_1920.jpg')
             /*page*/
         
     }
@@ -88,9 +88,9 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
                     <div class="site-heading">
-                        <h1>slothbrain&#39;s blog</h1>
+                        <h1>影视</h1>
                         <!--<hr class="small">-->
-                        <span class="subheading">TWaver || 人工智能 || CG</span>
+                        <span class="subheading">爱生活,爱影视</span>
                     </div>
                 
 
@@ -261,83 +261,10 @@
     <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
             
-                <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Ray tracer</title>
-    <script type="text/javascript" src="Vector3.js"></script>
-    <script type="text/javascript" src="Ray3.js"></script>
-    <script type="text/javascript" src="IntersectResult.js"></script>
-    <script type="text/javascript" src="Sphere.js"></script>
-    <script type="text/javascript" src="Plane.js"></script>
-    <script type="text/javascript" src="Union.js"></script>
-    <script type="text/javascript" src="PerspectiveCamera.js"></script>
-    <script type="text/javascript" src="Color.js"></script>
-    <script type="text/javascript" src="CheckerMaterial.js"></script>
-    <script type="text/javascript" src="PhongMaterial.js"></script>
-    <script type="text/javascript">
-function rayTrace(canvas, scene, camera) {
-    if (!canvas || !canvas.getContext) 
-        return;
-
-    var ctx = canvas.getContext("2d");
-    if (!ctx.getImageData)
-        return;
-
-    var w = canvas.attributes.width.value;
-    var h = canvas.attributes.height.value;
-    ctx.fillStyle = "rgb(0,0,0)";
-    ctx.fillRect(0, 0, w, h);
-
-    var imgdata = ctx.getImageData(0, 0, w, h);
-    var pixels = imgdata.data;
-
-    scene.initialize();
-    camera.initialize();
-
-    var i = 0;
-    for (var y = 0; y < h; y++) {
-        var sy = 1 - y / h;
-        for (var x = 0; x < w; x++) {
-            var sx = x / w;
-            var ray = camera.generateRay(sx, sy);
-            var result = scene.intersect(ray);
-            if (result.geometry) {
-                var color = result.geometry.material.sample(ray, result.position, result.normal);
-                pixels[i] = color.r * 255;
-                pixels[i + 1] = color.g * 255;
-                pixels[i + 2] = color.b * 255;
-                pixels[i + 3] = 255;
-            }
-            i += 4;
-        }
-    }
-
-    ctx.putImageData(imgdata, 0, 0);
-}
-    </script>
-</head>
-<body onload="">
-<canvas id="renderCanvas" width="256" height="256"></canvas>
-<br>
-<textarea id="code" rows="5" cols="100">
-var plane = new Plane(new Vector3(0, 1, 0), 0);
-var sphere1 = new Sphere(new Vector3(-10, 10, -10), 10);
-var sphere2 = new Sphere(new Vector3(10, 10, -10), 10);
-plane.material = new CheckerMaterial(0.1);
-sphere1.material = new PhongMaterial(Color.red, Color.white, 16);
-sphere2.material = new PhongMaterial(Color.blue, Color.white, 16);
-
-rayTrace(
-    document.getElementById('renderCanvas'), 
-    new Union([plane, sphere1, sphere2]),
-    new PerspectiveCamera(new Vector3(0, 5, 15), new Vector3(0, 0, -1), new Vector3(0, 1, 0), 90),
-    3);
-</textarea>
-<br>
-<button onclick="eval(document.getElementById('code').value)">Run</button>
-</body>
-</html>
+                <h2 id="致我们单纯的小美好"><a href="#致我们单纯的小美好" class="headerlink" title="致我们单纯的小美好"></a><a href="https://movie.douban.com/subject/27008416/" target="_blank" rel="external">致我们单纯的小美好</a></h2><p><img src="./xiaomeihao.jpg" alt="致我们单纯的小美好"></p>
+<blockquote>
+<p>关关雎鸠，在河之洲。窈窕淑女，君子好逑。<br>参差荇菜，左右流之。窈窕淑女，寤寐求之。<br>求之不得，寤寐思服。悠哉悠哉，辗转反侧。<br>参差荇菜，左右采之。窈窕淑女，琴瑟友之。<br>参差荇菜，左右芼之。窈窕淑女，钟鼓乐之。        —-<a href="http://so.gushiwen.org/view_1.aspx" target="_blank" rel="external">《国风·周南·关雎》</a></p>
+</blockquote>
 
 
                 <!-- 如果开启评论功能 -->
@@ -362,8 +289,8 @@ rayTrace(
                     <script type="text/javascript">
                         /* * * CONFIGURATION VARIABLES * * */
                         var disqus_shortname = "abopaper";
-                        var disqus_identifier = "https://slothbrain.github.io/demo/raytrace/rayTrace.html";
-                        var disqus_url = "https://slothbrain.github.io/demo/raytrace/rayTrace.html";
+                        var disqus_identifier = "https://slothbrain.github.io/movie/index.html";
+                        var disqus_url = "https://slothbrain.github.io/movie/index.html";
 
                         (function() {
                             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
