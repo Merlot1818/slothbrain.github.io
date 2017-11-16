@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mono Test</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="../lib/sloth.js"></script>
+    <script type="text/javascript">
+        function init() {
+            var box = new mono.DataBox();
+            var network = new mono.Network3D(box, null, monoCanvas);
+            mono.Utils.autoAdjustNetworkBounds(network, document.documentElement, 'clientWidth', 'clientHeight');
+            network.setClearColor('black');
+            network.setClearAlpha(1);
+            network.setPrecision('highp'); //lowp,mediump,highp
+
+            box.add(new mono.AmbientLight(0x888888));
+            var pointLight = new mono.PointLight(0xFFFFFF, 1.5);
+            pointLight.setPosition(1000, 1000, 1000);
+            box.add(pointLight);
+
+            var pointLight = new mono.PointLight('blue', 1.5);
+            pointLight.setPosition(300, -300, 0);
+            box.add(pointLight);
+
+            var pointLight = new mono.PointLight('blue', 1.5);
+            pointLight.setPosition(0, -300, 0);
+            box.add(pointLight);
+
+            var pointLight = new mono.PointLight('blue', 1.5);
+            pointLight.setPosition(-300, -300, 0);
+            box.add(pointLight);
+
+
+            var camera = network.getCamera();
+            camera.setPosition(200, 200, 500);
+
+            var cube = new mono.Sphere(50, 30, 30, 0, Math.PI * 2, 0, Math.PI);
+            cube.setPosition(0, 00, 0);
+            cube.s({
+                'm.type': 'phong',
+                'm.texture.image': './images/quanjing.jpg'
+            });
+            box.add(cube);
+
+            var ctrlPoints = [];
+            var n = 100;
+            var offset = 2 * Math.PI / n;
+            var points = [];
+            var a = 400;
+            for (var t = 0; t <= 2 * Math.PI; t += offset) {
+                var x = a * Math.cos(t);
+                var y = 0;
+                // var y = a * Math.sin(t);
+                var z = a * Math.sin(t);
+                points.push(new mono.Vec4(x, y, z, 40));
+            }
+            ctrlPoints.push(points);
+
+            a = 200;
+            var points = [];
+            for (var t = 0; t <= 2 * Math.PI; t += offset) {
+                var x = a * Math.cos(t);
+                var y = 40;
+                // var y = a * Math.sin(t);
+                var z = a * Math.sin(t);
+                points.push(new mono.Vec4(x, y, z, 60));
+            }
+            ctrlPoints.push(points);
+
+            a = 5;
+            var points = [];
+            for (var t = 0; t <= 2 * Math.PI; t += offset) {
+                var x = a * Math.cos(t);
+                var y = -100;
+                // var y = a * Math.sin(t);
+                var z = a * Math.sin(t);
+                points.push(new mono.Vec4(x, y, z, 10));
+            }
+            ctrlPoints.push(points);
+
+            var degree1 = 2;
+            var degree2 = n - 1;
+            var nurbsSurface = new mono.NurbsSurface(degree1, degree2, ctrlPoints);
+            var surface = new mono.Surface(nurbsSurface, 100, 100, {
+                skyY: 40,
+                horizonY: 0,
+                earthY: -100,
+                skyColor: new mono.Color('#CDCDCD'),
+                horizonColor: new mono.Color('#CDCDCD'),
+                earthColor: new mono.Color('#CDCDCD'),
+            });
+            surface.s({
+                'm.type': 'phong',
+                'm.wireframe': true,
+                'm.wireframeLinewidth': 1,
+                'm.wireframeLinecolor': '#00000',
+                'm.wireframeLineopacity': 1,
+            });
+            box.add(surface);
+            surface.setSelectable(false);
+        }
+    </script>
+</head>
+
+<body onload='init()'>
+    <div>
+        <canvas id="monoCanvas" />
+    </div>
+</body>
+
+</html>
